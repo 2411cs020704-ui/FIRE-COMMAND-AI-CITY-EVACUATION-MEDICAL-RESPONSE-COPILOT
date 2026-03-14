@@ -1,0 +1,77 @@
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import { io, Socket } from "socket.io-client";
+import { toast } from "sonner";
+import { sendNotification, requestNotificationPermission } from "@/lib/notifications";
+
+interface SocketContextType {
+  socket: Socket | null;
+  isConnected: boolean;
+}
+
+const SocketContext = createContext<SocketContextType>({
+  socket: null,
+  isConnected: false,
+});
+
+export const useSocket = () => useContext(SocketContext);
+
+export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const socketRef = useRef<Socket | null>(null);
+
+  useEffect(() => {
+    // Determine the socket URL based on the environment
+    const socketUrl = window.location.origin;
+    
+    const socketInstance = io(socketUrl, {
+      transports: ["websocket"],
+      reconnection: true,
+    });
+
+    socketRef.current = socketInstance;
+    setSocket(socketInstance);
+
+    socketInstance.on("connect", () => {
+      console.log("Connected to Socket.io server");
+      setIsConnected(true);
+      requestNotificationPermission();
+    });
+
+    socketInstance.on("new_incident", (incident: any) => {
+      console.log("New incident received via WebSocket:", incident);
+      toast.error(`NEW EMERGENCY: ${incident.type.toUpperCase()}`, {
+        description: `${incident.buildingName || "Unknown location"}: ${incident.description || "No details provided"}`,
+        duration: 10000,
+      });
+
+      sendNotification(`MRUH EMERGENCY: ${incident.type.toUpperCase()}`, {
+        body: `${incident.buildingName}: ${incident.description}`,
+        tag: incident.id.toString(),
+        requireInteraction: true,
+      });
+    });
+
+    socketInstance.on("incident_resolved", (incidentId: string) => {
+      console.log("Incident resolved via WebSocket:", incidentId);
+      toast.success(`EMERGENCY RESOLVED`, {
+        description: `Incident #${incidentId} has been cleared.`,
+      });
+    });
+
+    socketInstance.on("disconnect", () => {
+      console.log("Disconnected from Socket.io server");
+      setIsConnected(false);
+    });
+
+    return () => {
+      socketInstance.disconnect();
+    };
+  }, []);
+
+  return (
+    <SocketContext.Provider value={{ socket, isConnected }}>
+      {children}
+    </SocketContext.Provider>
+  );
+};

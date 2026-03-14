@@ -1,0 +1,223 @@
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f2200d",
+            "background-light": "#f8f6f5",
+            "background-dark": "#0A1628",
+            "slate-950": "#050b14",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk"]
+          },
+          borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .glass {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glow-border {
+      box-shadow: 0 0 15px rgba(242, 32, 13, 0.3);
+      border: 1px solid rgba(242, 32, 13, 0.5);
+    }
+    .pulse-red {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; border-color: rgba(242, 32, 13, 1); box-shadow: 0 0 0 0 rgba(242, 32, 13, 0.7); }
+      50% { opacity: .8; border-color: rgba(242, 32, 13, 0.3); box-shadow: 0 0 10px 2px rgba(242, 32, 13, 0.2); }
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
+<!-- Header Section -->
+<header class="sticky top-0 z-50 flex items-center justify-between p-4 bg-background-dark/80 backdrop-blur-md border-b border-white/10">
+<div class="flex items-center gap-3">
+<div class="text-primary flex items-center justify-center p-2 rounded-lg bg-primary/10">
+<span class="material-symbols-outlined text-2xl">shield_locked</span>
+</div>
+<div>
+<h1 class="text-lg font-bold tracking-tight leading-none uppercase">MRUH Fortress</h1>
+<p class="text-[10px] text-slate-400 font-medium tracking-[0.2em] uppercase">Command Center</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full glass hover:bg-white/10 transition-colors relative">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-2 right-2 flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+</button>
+<button class="p-2 rounded-full glass hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Global Stats Badges -->
+<div class="flex gap-3 px-4 py-4 overflow-x-auto no-scrollbar">
+<div class="flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl glass border-primary/20">
+<span class="material-symbols-outlined text-primary">error</span>
+<div>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Active Incidents</p>
+<p class="text-xl font-bold leading-none">12</p>
+</div>
+</div>
+<div class="flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl glass border-orange-500/20">
+<span class="material-symbols-outlined text-orange-500">warning</span>
+<div>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Critical Alerts</p>
+<p class="text-xl font-bold leading-none">04</p>
+</div>
+</div>
+<div class="flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl glass border-blue-500/20">
+<span class="material-symbols-outlined text-blue-500">sensors</span>
+<div>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Node Status</p>
+<p class="text-xl font-bold leading-none">98.2%</p>
+</div>
+</div>
+</div>
+<!-- Main Viewport (3D Map Placeholder) -->
+<main class="flex-1 px-4 pb-4">
+<div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden glow-border group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Futuristic 3D wireframe campus map visualization" data-location="Hyderabad" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDd0BSILaRC26lYwIpV7u-94SRxNQ58q8ZW0eJdMQud7DFXybrdnkNQnRT2zEg0wMhlSnKI6KB-uOcTMRjCp0hETLXF-JaZbYPSXTFXgY4fNokaXNmaiSks43_YtA4rsDy8kVPHsNQHndFekiRLio45SMLjv0AQ3ulMFShiTZ1le9LEgJ6-WGGzllxu6ZxyowOuVnxh0-RG9MPi4ceITkfCdpqQbiONXbRUucg6X2MWNPmyh13R6yfRwbcjC8zHTdDkpqKlRHqrZzQ');">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+</div>
+<!-- Tech HUD Elements -->
+<div class="absolute inset-0 pointer-events-none p-4 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-2 glass rounded text-[10px] font-mono text-primary/80">
+            LAT: 17.4435 N<br/>LNG: 78.3489 E
+          </div>
+<div class="p-2 glass rounded text-[10px] font-mono text-slate-400">
+            SEC_LEVEL: ALPHA
+          </div>
+</div>
+<!-- Interactive Pins Overlay -->
+<div class="absolute top-1/3 left-1/4">
+<div class="relative flex items-center justify-center">
+<div class="absolute h-8 w-8 bg-primary/20 rounded-full animate-ping"></div>
+<div class="h-4 w-4 bg-primary rounded-full border-2 border-white"></div>
+</div>
+</div>
+<div class="absolute bottom-1/4 right-1/3">
+<div class="relative flex items-center justify-center">
+<div class="absolute h-12 w-12 bg-blue-500/20 rounded-full animate-pulse"></div>
+<div class="h-4 w-4 bg-blue-500 rounded-full border-2 border-white shadow-lg"></div>
+</div>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex gap-1">
+<div class="h-1 w-8 bg-primary rounded-full"></div>
+<div class="h-1 w-4 bg-white/20 rounded-full"></div>
+<div class="h-1 w-4 bg-white/20 rounded-full"></div>
+</div>
+<p class="text-[10px] font-mono text-slate-400">LIVE FEED: CAM_082</p>
+</div>
+</div>
+<!-- Action Buttons Overlay -->
+<div class="absolute bottom-4 left-4 right-4 flex gap-3">
+<button class="flex-1 py-3 px-4 bg-primary text-white rounded-lg font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">local_fire_department</span>
+          SIMULATE FIRE
+        </button>
+<button class="flex-1 py-3 px-4 glass text-slate-100 rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">layers_clear</span>
+          CLEAR ALL
+        </button>
+</div>
+</div>
+<!-- Active Incidents List -->
+<div class="mt-8 space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-bold tracking-tight">Active Incidents</h2>
+<span class="text-xs text-primary font-bold px-2 py-1 bg-primary/10 rounded uppercase">Live Updates</span>
+</div>
+<div class="space-y-3">
+<!-- Fire Alert -->
+<div class="p-4 rounded-xl glass pulse-red flex items-center gap-4">
+<div class="h-12 w-12 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">local_fire_department</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-slate-100">B-Block Central Fire</h3>
+<p class="text-xs text-slate-400">Server Room - 4th Floor</p>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-primary">CRITICAL</p>
+<p class="text-[10px] text-slate-400">02m ago</p>
+</div>
+</div>
+<!-- Flood Alert -->
+<div class="p-4 rounded-xl glass border-blue-500/30 flex items-center gap-4">
+<div class="h-12 w-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+<span class="material-symbols-outlined text-3xl">water_damage</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-slate-100">Library Basement Flood</h3>
+<p class="text-xs text-slate-400">Water Main Leak Detected</p>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-blue-400">URGENT</p>
+<p class="text-[10px] text-slate-400">12m ago</p>
+</div>
+</div>
+<!-- Security Alert -->
+<div class="p-4 rounded-xl glass border-slate-700 flex items-center gap-4 opacity-70">
+<div class="h-12 w-12 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined text-3xl">sensor_door</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-slate-400">Unauthorized Access</h3>
+<p class="text-xs text-slate-500">North Gate - Sector 7</p>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-slate-500">RESOLVED</p>
+<p class="text-[10px] text-slate-500">45m ago</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="sticky bottom-0 z-50 bg-background-dark/95 border-t border-white/10 px-4 pb-6 pt-2">
+<div class="flex justify-between items-center max-w-md mx-auto">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-[1] text-2xl">grid_view</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Console</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">map</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Campus</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">list_alt</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Logs</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Config</p>
+</a>
+</div>
+</nav>
+</body></html>

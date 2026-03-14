@@ -1,0 +1,1153 @@
+================================================================================
+ANTI-GRAVITY URBAN RESILIENCE SYSTEM: COMPLETE TECHNICAL PLAYBOOK
+================================================================================
+Author: Senior Dev (Andrew Tate Mindset + Physics Engineer)
+Date: March 14, 2026
+Project: MRUH Fortress v2 - Gravity-Aware Disaster Response
+Goal: Build a physics-based AI system that accounts for terrain, elevation, and gravity
+Prize: ₹15,000 (Winner ₹10,000, Runner ₹5,000)
+Confidence: 98% (This is so advanced, no one will think of it)
+
+================================================================================
+PART 1: THE AGGRESSIVE VISION
+================================================================================
+
+Listen. You're not just building a disaster response system. You're building a PHYSICS ENGINE
+that understands how gravity affects human behavior during crises.
+
+Most teams will build flat 2D apps. You will build a 3D WORLD that simulates reality.
+
+Key insight: Real cities are NOT flat. They have hills, valleys, slopes. When a disaster strikes,
+gravity becomes a FACTOR in evacuation. Water flows downhill. People move slower uphill.
+Evacuation routes must account for PHYSICS, not just distance.
+
+Your system will:
+1. Simulate real-world physics (gravity, terrain, elevation)
+2. Use AI to make decisions based on physics (route optimization with terrain)
+3. Visualize in 3D (show how gravity affects evacuation)
+4. Solve SDG 11 (Sustainable Cities with physics-aware infrastructure)
+
+This is INSANE. This is WINNING.
+
+================================================================================
+PART 2: SYSTEM ARCHITECTURE (PHYSICS + AI + 3D)
+================================================================================
+
+MRUH FORTRESS v2: GRAVITY-AWARE DISASTER RESPONSE SYSTEM
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                      PRESENTATION LAYER (3D WORLD)                            │
+│  (Three.js + Cannon.js Physics Engine + Real-time Terrain Visualization)     │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                     │
+                 ┌────────────────────┼────────────────────┐
+                 │                    │                    │
+                 ▼                    ▼                    ▼
+      ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+      │ PHYSICS ENGINE   │  │ AI AGENT LAYER   │  │ RAG LAYER        │
+      │ (Cannon.js)      │  │ (Orchestration)  │  │ (Knowledge)      │
+      │                  │  │                  │  │                  │
+      │ - Gravity        │  │ - Incident       │  │ - Terrain data   │
+      │ - Terrain        │  │ - Pathfinding    │  │ - Elevation map  │
+      │ - Elevation      │  │ - Optimization   │  │ - Route cache    │
+      │ - Forces         │  │ - Decision       │  │ - Physics rules  │
+      └──────────────────┘  └──────────────────┘  └──────────────────┘
+                 │                    │                    │
+                 └────────────────────┼────────────────────┘
+                                     │
+      ┌──────────────────────────────┼──────────────────────────────┐
+      │                              │                              │
+      ▼                              ▼                              ▼
+┌──────────────────┐      ┌──────────────────┐      ┌──────────────────┐
+│ TERRAIN PROCESSOR│      │ GRAVITY-AWARE    │      │ PHYSICS-BASED    │
+│ (Elevation Map)  │      │ PATHFINDING      │      │ HEATMAP          │
+│                  │      │ (A* + Physics)   │      │ (Zone Severity)  │
+│ - Parse terrain  │      │                  │      │                  │
+│ - Calculate      │      │ - Grid mapping   │      │ - Gravity effect │
+│   slopes         │      │ - Slope analysis │      │ - Elevation      │
+│ - Extract        │      │ - Route calc     │      │   zones          │
+│   elevation      │      │ - Physics force  │      │ - Evacuation     │
+│ - Build 3D mesh  │      │   optimization   │      │   difficulty     │
+└──────────────────┘      └──────────────────┘      └──────────────────┘
+      │                              │                              │
+      └──────────────────────────────┼──────────────────────────────┘
+                                     │
+      ┌──────────────────────────────┼──────────────────────────────┐
+      │                              │                              │
+      ▼                              ▼                              ▼
+┌──────────────────┐      ┌──────────────────┐      ┌──────────────────┐
+│ DATABASE LAYER   │      │ CACHE LAYER      │      │ PHYSICS CACHE    │
+│ (MySQL)          │      │ (Redis)          │      │ (Pre-computed)   │
+│                  │      │                  │      │                  │
+│ - Terrain data   │      │ - Route cache    │      │ - Physics lookup │
+│ - Elevation map  │      │ - Zone cache     │      │ - Slope cache    │
+│ - Incidents      │      │ - User cache     │      │ - Force cache    │
+│ - Routes         │      │ - Physics cache  │      │ - Time cache     │
+└──────────────────┘      └──────────────────┘      └──────────────────┘
+
+================================================================================
+PART 3: PHYSICS ENGINE ARCHITECTURE (CANNON.JS)
+================================================================================
+
+The physics engine is the HEART of this system. It simulates real-world forces.
+
+PHYSICS COMPONENTS:
+
+Component 1: GRAVITY SIMULATION
+Purpose: Simulate how gravity affects human movement and object behavior
+Implementation:
+  - Gravity constant: 9.81 m/s² (Earth-like)
+  - Direction: Always downward (toward lowest elevation)
+  - Effect on evacuation: People move slower uphill, faster downhill
+  - Effect on water: Flows downhill, creates new hazards
+  - Effect on objects: Buildings, debris, vehicles affected by slope
+
+Gravity Impact on Evacuation:
+  - Flat terrain: Movement speed = 1.4 m/s (normal walking)
+  - Uphill (5°): Movement speed = 1.0 m/s (28% slower)
+  - Uphill (10°): Movement speed = 0.7 m/s (50% slower)
+  - Downhill (5°): Movement speed = 1.6 m/s (14% faster)
+  - Downhill (10°): Movement speed = 1.8 m/s (28% faster)
+
+Component 2: TERRAIN SYSTEM
+Purpose: Represent campus as 3D terrain with elevation
+Implementation:
+  - Heightmap: 10x10 grid with elevation values
+  - Mesh generation: Create 3D terrain from heightmap
+  - Collision detection: People/objects collide with terrain
+  - Slope calculation: Calculate slope angle at each point
+  - Surface friction: Different friction for different terrain types
+
+Terrain Data Structure:
+{
+  heightmap: [[0, 5, 10, ...], [5, 8, 12, ...], ...],
+  width: 250,
+  depth: 250,
+  maxHeight: 50,
+  terrainTypes: {
+    "grass": {friction: 0.8, walkable: true},
+    "concrete": {friction: 0.6, walkable: true},
+    "water": {friction: 0.1, walkable: false},
+    "building": {friction: 1.0, walkable: false}
+  }
+}
+
+Component 3: FORCE SIMULATION
+Purpose: Simulate how external forces affect evacuation
+Implementation:
+  - Wind forces: Can push people off course
+  - Water pressure: From floods, pushes people downhill
+  - Explosion forces: From fires, push people away
+  - Crowd pressure: People pushing each other during evacuation
+
+Force Calculations:
+  - Wind force: F = 0.5 * ρ * v² * A (air density, velocity, area)
+  - Water pressure: F = ρ * g * h * A (density, gravity, height, area)
+  - Explosion force: F = (TNT equivalent) / distance²
+  - Crowd force: F = (number of people) * (average force per person)
+
+Component 4: COLLISION DETECTION
+Purpose: Detect when people/objects collide with terrain or obstacles
+Implementation:
+  - Sphere collision: People represented as spheres
+  - Mesh collision: Terrain represented as mesh
+  - Continuous collision detection: Prevent tunneling through terrain
+  - Collision response: Bounce, slide, or stop based on surface
+
+Collision Types:
+  - Person vs Terrain: Stop or slide
+  - Person vs Building: Stop
+  - Person vs Water: Slow down or stop
+  - Person vs Other Person: Crowd dynamics
+
+Component 5: REAL-TIME PHYSICS UPDATE
+Purpose: Update physics state every frame
+Implementation:
+  - Simulation step: 60 FPS (16.67 ms per frame)
+  - Integrate forces: Update velocity and position
+  - Collision detection: Check for collisions
+  - Collision response: Handle collisions
+  - Constraint solving: Resolve overlaps
+
+Physics Update Loop:
+1. Apply forces (gravity, wind, water, explosion)
+2. Update velocity (v = v + a * dt)
+3. Update position (p = p + v * dt)
+4. Detect collisions
+5. Resolve collisions
+6. Render frame
+
+================================================================================
+PART 4: GRAVITY-AWARE PATHFINDING (A* + PHYSICS)
+================================================================================
+
+This is where AI meets physics. The pathfinding algorithm accounts for gravity.
+
+PATHFINDING WITH PHYSICS:
+
+Traditional A* Algorithm:
+- Cost = distance
+- Heuristic = straight-line distance
+- Result = shortest path
+
+Gravity-Aware A* Algorithm:
+- Cost = distance + elevation change + slope difficulty + time to traverse
+- Heuristic = straight-line distance + elevation change
+- Result = fastest path considering physics
+
+Cost Function:
+cost(node) = distance + (elevation_change * gravity_factor) + (slope * difficulty_factor) + time
+
+Where:
+- distance = Euclidean distance between nodes
+- elevation_change = |current_elevation - next_elevation|
+- gravity_factor = 0.5 (weight for elevation in cost calculation)
+- slope = angle of terrain (0-90 degrees)
+- difficulty_factor = 1 + (slope / 45) (difficulty increases with slope)
+- time = distance / movement_speed(slope)
+
+Movement Speed Calculation:
+movement_speed(slope) = base_speed * speed_factor(slope)
+
+Where speed_factor is:
+- Flat (0°): 1.0
+- Uphill 5°: 0.71
+- Uphill 10°: 0.50
+- Uphill 15°: 0.35
+- Downhill 5°: 1.14
+- Downhill 10°: 1.28
+- Downhill 15°: 1.43
+
+Heuristic Function:
+h(node) = straight_line_distance + elevation_change_estimate
+
+Where elevation_change_estimate = |current_elevation - goal_elevation| * gravity_factor
+
+ALGORITHM PSEUDOCODE:
+
+function gravityAwareAstar(start, goal, terrain, incident) {
+  openSet = [start]
+  cameFrom = {}
+  gScore = {start: 0}
+  fScore = {start: heuristic(start, goal, terrain)}
+  
+  while openSet is not empty {
+    current = node in openSet with lowest fScore
+    
+    if current == goal {
+      return reconstructPath(cameFrom, current)
+    }
+    
+    remove current from openSet
+    
+    for neighbor in getNeighbors(current, terrain) {
+      // Skip if neighbor is in incident zone
+      if isInIncidentZone(neighbor, incident) {
+        continue
+      }
+      
+      // Calculate terrain-aware cost
+      slope = calculateSlope(current, neighbor, terrain)
+      movementSpeed = calculateMovementSpeed(slope)
+      traversalTime = distance(current, neighbor) / movementSpeed
+      elevationCost = abs(neighbor.elevation - current.elevation) * GRAVITY_FACTOR
+      
+      tentativeGScore = gScore[current] + traversalTime + elevationCost
+      
+      if neighbor not in gScore or tentativeGScore < gScore[neighbor] {
+        cameFrom[neighbor] = current
+        gScore[neighbor] = tentativeGScore
+        fScore[neighbor] = gScore[neighbor] + heuristic(neighbor, goal, terrain)
+        
+        if neighbor not in openSet {
+          add neighbor to openSet
+        }
+      }
+    }
+  }
+  
+  return null // No path found
+}
+
+MULTI-OBJECTIVE OPTIMIZATION:
+
+Instead of just finding fastest path, optimize for:
+1. Speed (minimize time)
+2. Safety (avoid incident zones)
+3. Accessibility (avoid steep slopes for elderly/disabled)
+4. Capacity (distribute people across multiple routes)
+
+Multi-Objective Cost:
+cost = w1*time + w2*safety + w3*accessibility + w4*capacity
+
+Where weights can be adjusted based on incident type:
+- Fire: w1=0.5, w2=0.3, w3=0.1, w4=0.1 (prioritize speed and safety)
+- Flood: w1=0.3, w2=0.4, w3=0.2, w4=0.1 (prioritize safety and accessibility)
+- Medical: w1=0.4, w2=0.2, w3=0.3, w4=0.1 (prioritize accessibility)
+
+================================================================================
+PART 5: PHYSICS-BASED HEATMAP (ELEVATION-AWARE)
+================================================================================
+
+The heatmap is not just based on distance to incident. It accounts for PHYSICS.
+
+HEATMAP CALCULATION:
+
+Traditional Heatmap:
+- Severity = 1 / distance_to_incident
+- Result = Circular zones around incident
+
+Physics-Based Heatmap:
+- Severity = 1 / (distance_to_incident * physics_factor)
+- Physics factor includes: elevation, slope, wind direction, water flow
+- Result = Realistic zones that account for terrain
+
+Physics Factors:
+
+1. Elevation Factor:
+   - If incident is uphill from zone: severity *= 1.2 (gravity helps spread)
+   - If incident is downhill from zone: severity *= 0.8 (gravity opposes spread)
+
+2. Slope Factor:
+   - Steep slopes (>15°): severity *= 1.3 (harder to evacuate)
+   - Gentle slopes (<5°): severity *= 0.9 (easier to evacuate)
+
+3. Wind Direction Factor:
+   - If wind blows toward zone: severity *= 1.5 (smoke/fire spreads)
+   - If wind blows away from zone: severity *= 0.6 (smoke/fire disperses)
+
+4. Water Flow Factor (for floods):
+   - If zone is downhill from incident: severity *= 1.8 (water flows here)
+   - If zone is uphill from incident: severity *= 0.2 (water flows away)
+
+5. Terrain Type Factor:
+   - Grass: severity *= 1.0 (normal)
+   - Concrete: severity *= 1.2 (fire spreads faster)
+   - Water: severity *= 0.5 (water doesn't spread in water)
+   - Buildings: severity *= 1.5 (fire spreads through buildings)
+
+HEATMAP CALCULATION ALGORITHM:
+
+function calculatePhysicsBasedHeatmap(incident, terrain, weather) {
+  heatmap = {}
+  
+  for each zone in campusZones {
+    // Base severity from distance
+    distance = calculateDistance(incident.location, zone.location)
+    baseSeverity = 1 / (distance + 1) // +1 to avoid division by zero
+    
+    // Calculate physics factors
+    elevationFactor = calculateElevationFactor(incident, zone, terrain)
+    slopeFactor = calculateSlopeFactor(zone, terrain)
+    windFactor = calculateWindFactor(incident, zone, weather)
+    waterFactor = calculateWaterFactor(incident, zone, terrain)
+    terrainFactor = calculateTerrainFactor(zone, terrain)
+    
+    // Combine factors
+    physicsMultiplier = elevationFactor * slopeFactor * windFactor * waterFactor * terrainFactor
+    
+    // Calculate final severity
+    severity = baseSeverity * physicsMultiplier
+    
+    // Clamp to 0-1 range
+    severity = Math.max(0, Math.min(1, severity))
+    
+    // Color code
+    color = getColorForSeverity(severity)
+    
+    heatmap[zone.id] = {
+      severity: severity,
+      color: color,
+      factors: {elevation: elevationFactor, slope: slopeFactor, wind: windFactor, water: waterFactor, terrain: terrainFactor}
+    }
+  }
+  
+  return heatmap
+}
+
+ELEVATION FACTOR CALCULATION:
+
+function calculateElevationFactor(incident, zone, terrain) {
+  incidentElevation = terrain.getElevation(incident.location)
+  zoneElevation = terrain.getElevation(zone.location)
+  elevationDifference = zoneElevation - incidentElevation
+  
+  if elevationDifference > 0 {
+    // Zone is uphill from incident
+    // Gravity opposes spread, reduce severity
+    return 1 - (elevationDifference / 50) * 0.2 // Max 20% reduction
+  } else {
+    // Zone is downhill from incident
+    // Gravity helps spread, increase severity
+    return 1 + (abs(elevationDifference) / 50) * 0.2 // Max 20% increase
+  }
+}
+
+SLOPE FACTOR CALCULATION:
+
+function calculateSlopeFactor(zone, terrain) {
+  slope = terrain.getSlope(zone.location) // 0-90 degrees
+  
+  if slope < 5 {
+    return 0.9 // Gentle slope, easier to evacuate
+  } else if slope < 15 {
+    return 1.0 // Normal slope
+  } else if slope < 30 {
+    return 1.2 // Steep slope, harder to evacuate
+  } else {
+    return 1.5 // Very steep, very difficult
+  }
+}
+
+WIND FACTOR CALCULATION:
+
+function calculateWindFactor(incident, zone, weather) {
+  windDirection = weather.windDirection // 0-360 degrees
+  incidentToZone = calculateBearing(incident.location, zone.location)
+  
+  angleDifference = abs(windDirection - incidentToZone)
+  if angleDifference > 180 {
+    angleDifference = 360 - angleDifference
+  }
+  
+  if angleDifference < 45 {
+    // Wind blows toward zone
+    return 1.5
+  } else if angleDifference > 135 {
+    // Wind blows away from zone
+    return 0.6
+  } else {
+    // Wind blows perpendicular
+    return 1.0
+  }
+}
+
+WATER FACTOR CALCULATION (for floods):
+
+function calculateWaterFactor(incident, zone, terrain) {
+  incidentElevation = terrain.getElevation(incident.location)
+  zoneElevation = terrain.getElevation(zone.location)
+  
+  if incident.type == "flood" {
+    if zoneElevation < incidentElevation {
+      // Zone is downhill, water flows here
+      return 1.8
+    } else if zoneElevation > incidentElevation {
+      // Zone is uphill, water flows away
+      return 0.2
+    } else {
+      // Same elevation
+      return 1.0
+    }
+  } else {
+    return 1.0 // No water factor for non-flood incidents
+  }
+}
+
+================================================================================
+PART 6: AI AGENT WITH PHYSICS AWARENESS
+================================================================================
+
+The AI agent now understands PHYSICS. It makes decisions based on terrain and gravity.
+
+AI AGENT FLOW (WITH PHYSICS):
+
+1. Receive incident report
+2. Analyze terrain and physics
+3. Retrieve knowledge (terrain data, routes, resources)
+4. Make physics-aware decision
+5. Execute action (calculate routes, allocate resources)
+6. Monitor and adapt (update heatmap, recalculate routes if terrain changes)
+
+SYSTEM PROMPT (PHYSICS-AWARE):
+
+"You are an AI emergency response system for MRUH Campus with advanced physics understanding.
+
+You have access to:
+1. Real-time incident data (type, severity, location)
+2. 3D terrain data (elevation map, slopes, terrain types)
+3. Physics simulation (gravity, wind, water flow)
+4. Campus knowledge (buildings, routes, resources)
+5. Current system state (active incidents, evacuations, alerts)
+
+Your responsibilities:
+1. Classify incidents considering terrain physics
+2. Make fast decisions accounting for gravity and elevation
+3. Prioritize human safety, considering physical constraints
+4. Communicate clearly (alerts in multiple languages)
+5. Adapt to changing physics (wind direction, water flow)
+
+When making decisions:
+- Consider elevation and slope difficulty
+- Account for gravity effects on evacuation speed
+- Prioritize routes that minimize physical strain
+- Ensure accessibility for elderly/disabled (avoid steep slopes)
+- Optimize for speed considering terrain physics
+- Be transparent about physics-based reasoning
+
+Always respond in valid JSON format. Never include explanations outside JSON."
+
+PHYSICS-AWARE DECISION PROMPT:
+
+"You are responding to an emergency in a 3D terrain environment. Make a physics-aware decision:
+
+INCIDENT: {incident_data}
+TERRAIN: {terrain_data}
+PHYSICS: {physics_simulation}
+KNOWLEDGE: {retrieved_knowledge}
+STATE: {system_state}
+
+Decide:
+1. Primary action (evacuate, shelter, medical, rescue)
+2. Evacuation routes (considering elevation and slope)
+3. Resource allocation (considering terrain accessibility)
+4. Communication (alerts considering physics factors)
+5. Physics considerations (gravity, wind, water flow)
+
+Respond in JSON:
+{
+  \"primary_action\": \"...\",
+  \"evacuation_routes\": [
+    {
+      \"from\": \"...\",
+      \"to\": \"...\",
+      \"waypoints\": [...],
+      \"terrain_difficulty\": \"easy|moderate|hard\",
+      \"estimated_time\": ...,
+      \"accessibility\": \"full|partial|limited\",
+      \"physics_factors\": {
+        \"average_slope\": ...,
+        \"elevation_change\": ...,
+        \"wind_effect\": \"none|slight|moderate|severe\",
+        \"water_flow\": \"none|slight|moderate|severe\"
+      }
+    }
+  ],
+  \"resources\": {...},
+  \"communication\": {...},
+  \"physics_reasoning\": \"...\"
+}"
+
+PHYSICS ANALYSIS PROMPT:
+
+"Analyze the physics of this evacuation scenario:
+
+INCIDENT: {incident_data}
+TERRAIN: {terrain_data}
+AFFECTED_BUILDINGS: {buildings}
+
+Analyze:
+1. How does gravity affect evacuation from each building?
+2. Which routes are fastest considering slope?
+3. Which routes are safest considering terrain?
+4. How do wind and water flow affect hazard spread?
+5. What are the physical constraints for elderly/disabled?
+
+Respond in JSON:
+{
+  \"gravity_analysis\": {
+    \"uphill_buildings\": [...],
+    \"downhill_buildings\": [...],
+    \"gravity_impact\": \"...\"
+  },
+  \"terrain_analysis\": {
+    \"steep_zones\": [...],
+    \"flat_zones\": [...],
+    \"difficult_terrain\": [...]
+  },
+  \"wind_analysis\": {
+    \"wind_direction\": ...,
+    \"affected_zones\": [...],
+    \"hazard_spread_direction\": \"...\"
+  },
+  \"water_analysis\": {
+    \"water_flow_direction\": \"...\",
+    \"flood_zones\": [...],
+    \"safe_zones\": [...]
+  },
+  \"accessibility_analysis\": {
+    \"wheelchair_accessible_routes\": [...],
+    \"elderly_friendly_routes\": [...],
+    \"difficult_routes\": [...]
+  }
+}"
+
+================================================================================
+PART 7: IMPLEMENTATION STRATEGY (4-HOUR PLAN)
+================================================================================
+
+Phase 1: SETUP & PHYSICS ENGINE (50 minutes)
+- Set up project structure
+- Install Cannon.js physics library
+- Create terrain heightmap
+- Initialize physics world
+- Create 3D mesh from heightmap
+- Verify terrain renders correctly
+
+Phase 2: PATHFINDING WITH PHYSICS (60 minutes)
+- Implement gravity-aware A* algorithm
+- Calculate movement speed based on slope
+- Test pathfinding with various terrains
+- Optimize pathfinding performance
+- Verify routes avoid steep slopes
+
+Phase 3: HEATMAP & AI INTEGRATION (50 minutes)
+- Implement physics-based heatmap calculation
+- Integrate terrain data into AI decision-making
+- Implement wind and water flow factors
+- Test heatmap updates with physics
+- Verify AI makes physics-aware decisions
+
+Phase 4: DEMO & POLISH (30 minutes)
+- Create demo scenario (fire on hillside)
+- Show how gravity affects evacuation
+- Show physics-based heatmap
+- Record demo video
+- Rehearse pitch
+
+================================================================================
+PART 8: DETAILED IMPLEMENTATION PROMPTS
+================================================================================
+
+PROMPT 1: TERRAIN PROCESSOR IMPLEMENTATION
+
+"You are implementing a terrain processor for a physics-based disaster response system.
+
+Requirements:
+1. Parse terrain heightmap (elevation data)
+2. Generate 3D mesh from heightmap
+3. Calculate slope at each point
+4. Identify terrain types (grass, concrete, water, building)
+5. Create physics-enabled terrain in Cannon.js
+
+Implementation:
+- Input: Heightmap array (10x10 grid with elevation values)
+- Process: Generate mesh, calculate normals, create physics shape
+- Output: 3D terrain with collision detection
+
+Terrain Data Structure:
+{
+  heightmap: [[0, 5, 10, ...], [5, 8, 12, ...], ...],
+  width: 250,
+  depth: 250,
+  maxHeight: 50,
+  terrainTypes: {...}
+}
+
+Mesh Generation:
+1. Create vertices from heightmap
+2. Create faces connecting vertices
+3. Calculate normals for lighting
+4. Create BufferGeometry for Three.js
+5. Create HeightfieldShape for Cannon.js
+
+Slope Calculation:
+1. For each point, calculate height difference to neighbors
+2. Calculate angle: angle = atan(height_difference / distance)
+3. Store slope for each point
+
+Performance:
+- Mesh generation: < 500ms
+- Physics shape creation: < 200ms
+- Slope calculation: < 100ms
+
+Code structure:
+function processTerrain(heightmap) {
+  // 1. Validate heightmap
+  // 2. Generate mesh
+  // 3. Calculate slopes
+  // 4. Identify terrain types
+  // 5. Create physics shape
+  // 6. Return terrain object
+}"
+
+PROMPT 2: GRAVITY-AWARE PATHFINDING IMPLEMENTATION
+
+"You are implementing gravity-aware A* pathfinding for a physics-based system.
+
+Requirements:
+1. Accept start, goal, and terrain
+2. Calculate movement speed based on slope
+3. Use A* algorithm with physics-aware cost
+4. Return optimal path considering gravity
+5. Handle multiple objectives (speed, safety, accessibility)
+
+Implementation:
+- Use A* algorithm with custom cost function
+- Cost = distance + elevation_change + slope_difficulty + time
+- Heuristic = straight_line_distance + elevation_change_estimate
+- Multi-objective optimization with weighted factors
+
+Movement Speed Calculation:
+- Flat: 1.4 m/s
+- Uphill 5°: 1.0 m/s
+- Uphill 10°: 0.7 m/s
+- Downhill 5°: 1.6 m/s
+- Downhill 10°: 1.8 m/s
+
+Cost Function:
+cost = distance + (elevation_change * 0.5) + (slope * difficulty_factor) + time
+
+Performance:
+- Pathfinding: < 500ms for 10x10 grid
+- Handle multiple simultaneous paths
+- Optimize for speed and safety
+
+Code structure:
+function gravityAwareAstar(start, goal, terrain, incident) {
+  // 1. Initialize open/closed sets
+  // 2. Main A* loop
+  // 3. Calculate physics-aware cost
+  // 4. Handle incident zones
+  // 5. Return optimal path
+}"
+
+PROMPT 3: PHYSICS-BASED HEATMAP IMPLEMENTATION
+
+"You are implementing a physics-based heatmap for terrain-aware severity calculation.
+
+Requirements:
+1. Accept incident, terrain, and weather data
+2. Calculate severity for each zone
+3. Apply physics factors (elevation, slope, wind, water)
+4. Color-code zones based on severity
+5. Update in real-time as physics changes
+
+Implementation:
+- Base severity from distance to incident
+- Apply physics multipliers
+- Combine factors: elevation * slope * wind * water * terrain
+- Clamp to 0-1 range
+- Generate color from severity
+
+Physics Factors:
+- Elevation: 0.8-1.2 multiplier
+- Slope: 0.9-1.5 multiplier
+- Wind: 0.6-1.5 multiplier
+- Water: 0.2-1.8 multiplier
+- Terrain: 0.5-1.5 multiplier
+
+Performance:
+- Heatmap calculation: < 200ms for 100 zones
+- Real-time updates: < 100ms
+- Cache results for performance
+
+Code structure:
+function calculatePhysicsBasedHeatmap(incident, terrain, weather) {
+  // 1. For each zone
+  // 2. Calculate base severity
+  // 3. Apply physics factors
+  // 4. Combine multipliers
+  // 5. Color-code
+  // 6. Return heatmap
+}"
+
+PROMPT 4: PHYSICS SIMULATION LOOP IMPLEMENTATION
+
+"You are implementing a real-time physics simulation loop for disaster visualization.
+
+Requirements:
+1. Update physics every frame (60 FPS)
+2. Apply forces (gravity, wind, water, explosion)
+3. Update velocity and position
+4. Detect and resolve collisions
+5. Render frame
+
+Implementation:
+- Use Cannon.js physics engine
+- Simulation step: 16.67 ms per frame
+- Integrate forces: v = v + a * dt
+- Update position: p = p + v * dt
+- Collision detection and response
+
+Physics Update Loop:
+1. Apply forces
+2. Update velocity
+3. Update position
+4. Detect collisions
+5. Resolve collisions
+6. Render frame
+
+Performance:
+- 60 FPS target
+- < 16.67 ms per frame
+- Smooth physics simulation
+
+Code structure:
+function physicsSimulationLoop() {
+  // 1. Calculate delta time
+  // 2. Apply forces
+  // 3. Update velocity
+  // 4. Update position
+  // 5. Detect collisions
+  // 6. Resolve collisions
+  // 7. Render frame
+  // 8. Schedule next frame
+}"
+
+PROMPT 5: WIND & WATER FLOW SIMULATION
+
+"You are implementing wind and water flow simulation for physics-based hazard spread.
+
+Requirements:
+1. Simulate wind direction and speed
+2. Simulate water flow based on terrain
+3. Apply forces to hazards (smoke, fire, water)
+4. Update hazard spread based on physics
+5. Visualize wind and water flow
+
+Implementation:
+- Wind: Direction (0-360°), Speed (0-20 m/s)
+- Water: Flow based on elevation gradient
+- Hazard spread: Affected by wind and water
+- Visualization: Particles for wind, fluid simulation for water
+
+Wind Simulation:
+- Direction: Can change over time
+- Speed: Affects smoke/fire spread
+- Force on objects: F = 0.5 * ρ * v² * A
+
+Water Flow Simulation:
+- Direction: Downhill (based on elevation gradient)
+- Speed: Based on slope and water volume
+- Force on objects: F = ρ * g * h * A
+
+Performance:
+- Wind simulation: < 100ms
+- Water flow: < 200ms
+- Hazard spread: < 150ms
+
+Code structure:
+function simulateWindAndWaterFlow(terrain, weather, incidents) {
+  // 1. Get wind data
+  // 2. Get water flow data
+  // 3. For each hazard
+  // 4. Apply wind force
+  // 5. Apply water force
+  // 6. Update hazard position
+  // 7. Return updated hazards
+}"
+
+================================================================================
+PART 9: TEST CASES (PHYSICS VALIDATION)
+================================================================================
+
+TEST CASE 1: TERRAIN LOADING & PHYSICS
+Scenario: Load terrain heightmap and create physics shape
+Input: Heightmap array with elevation values
+Expected Output: 3D mesh rendered, physics shape created, no errors
+Test: Assert mesh vertices match heightmap, assert physics shape is valid
+Validation: Terrain renders correctly, collisions work
+
+TEST CASE 2: GRAVITY EFFECT ON MOVEMENT
+Scenario: Calculate movement speed on different slopes
+Input: Slope angles (0°, 5°, 10°, 15°, -5°, -10°, -15°)
+Expected Output: Movement speeds match expected values
+Test: Assert uphill speeds < flat speeds < downhill speeds
+Validation: Physics calculations are correct
+
+TEST CASE 3: GRAVITY-AWARE PATHFINDING
+Scenario: Find optimal path considering slope difficulty
+Input: Start building, goal exit, terrain with slopes
+Expected Output: Path that minimizes time considering slope
+Test: Assert path avoids steep slopes, assert time is minimized
+Validation: Pathfinding accounts for physics
+
+TEST CASE 4: PHYSICS-BASED HEATMAP
+Scenario: Calculate heatmap with physics factors
+Input: Fire incident on hillside, terrain, wind direction
+Expected Output: Heatmap zones with physics-adjusted severity
+Test: Assert uphill zones have lower severity, downhill zones higher
+Test: Assert wind direction affects severity
+Validation: Heatmap reflects physics
+
+TEST CASE 5: WIND EFFECT ON HAZARD SPREAD
+Scenario: Simulate fire spread with wind
+Input: Fire incident, wind direction, wind speed
+Expected Output: Fire spreads in wind direction
+Test: Assert fire spreads faster in wind direction
+Test: Assert fire spreads slower against wind
+Validation: Wind affects hazard spread
+
+TEST CASE 6: WATER FLOW SIMULATION
+Scenario: Simulate flood water flowing downhill
+Input: Flood incident on hillside, terrain elevation
+Expected Output: Water flows downhill, affects downhill zones
+Test: Assert water flows in downhill direction
+Test: Assert downhill zones have higher severity
+Validation: Water flow follows gravity
+
+TEST CASE 7: MULTI-OBJECTIVE OPTIMIZATION
+Scenario: Find route that balances speed, safety, and accessibility
+Input: Incident, terrain, multiple objectives
+Expected Output: Route that optimizes all objectives
+Test: Assert route is reasonably fast
+Test: Assert route avoids incident zone
+Test: Assert route is accessible for elderly/disabled
+Validation: Multi-objective optimization works
+
+TEST CASE 8: PHYSICS PERFORMANCE
+Scenario: Simulate physics at 60 FPS
+Input: Complex terrain, multiple forces, collisions
+Expected Output: Smooth 60 FPS simulation
+Test: Assert frame time < 16.67 ms
+Test: Assert no frame drops
+Validation: Physics runs at real-time speed
+
+TEST CASE 9: TERRAIN ACCESSIBILITY
+Scenario: Identify accessible routes for elderly/disabled
+Input: Terrain with various slopes
+Expected Output: Routes with gentle slopes, avoiding steep terrain
+Test: Assert accessible routes have slope < 10°
+Test: Assert difficult routes have slope > 20°
+Validation: Accessibility analysis is correct
+
+TEST CASE 10: PHYSICS EDGE CASES
+Scenario: Handle extreme physics conditions
+Input: Very steep terrain (>45°), extreme wind (>30 m/s), large flood
+Expected Output: System handles edge cases gracefully
+Test: Assert no crashes or errors
+Test: Assert heatmap still updates
+Test: Assert routes still calculated
+Validation: System is robust
+
+================================================================================
+PART 10: DEMO SCENARIO (THE WOW MOMENT)
+================================================================================
+
+THE DEMO: "GRAVITY-AWARE FIRE EVACUATION ON HILLSIDE"
+
+Setup:
+- 3D terrain with elevation (hill with buildings)
+- Engineering block at bottom of hill
+- Science block at top of hill
+- Medical block on slope
+
+Scenario:
+1. Fire breaks out in Engineering block (bottom of hill)
+2. System calculates evacuation routes
+3. Show how gravity affects evacuation:
+   - People evacuating uphill move slower
+   - People evacuating downhill move faster
+   - Optimal routes balance speed and safety
+4. Show physics-based heatmap:
+   - Fire spreads downhill (gravity helps)
+   - Uphill zones are safer
+   - Wind direction affects spread
+5. Show real-time physics simulation:
+   - Fire particles affected by wind
+   - Water particles flow downhill
+   - People move with physics constraints
+
+DEMO SCRIPT (2 Minutes):
+
+"Most disaster response systems treat cities as flat grids. They don't account for one fundamental force: GRAVITY.
+
+Real cities have hills, valleys, slopes. When a disaster strikes, gravity becomes a FACTOR in evacuation.
+
+Watch what happens when a fire breaks out at the bottom of this hill.
+
+[Click "Simulate Fire Demo"]
+
+Our system instantly detects the incident. But here's what makes us different: we calculate evacuation routes considering PHYSICS.
+
+See how people evacuating uphill move slower? That's gravity. Our system accounts for this. It routes people downhill when possible, minimizing evacuation time.
+
+But it doesn't just optimize for speed. It optimizes for SAFETY. Notice the heatmap? The fire spreads downhill because gravity helps it. Our system knows this. It routes people away from the hazard.
+
+Watch the wind direction change. The fire spreads in the wind direction. Our system adapts in real-time. Routes update. Alerts change. All based on physics.
+
+This is what sustainable cities look like. Not just smart. PHYSICS-AWARE.
+
+[5-second silence]"
+
+================================================================================
+PART 11: AGGRESSIVE WINNING STRATEGY
+================================================================================
+
+THE MINDSET:
+You're not just building a disaster response system. You're building a PHYSICS ENGINE.
+Most teams will build flat 2D apps. You will build a 3D WORLD with real physics.
+You will win because you're smarter, faster, and more aggressive than everyone else.
+
+THE STRATEGY:
+
+1. PRE-BUILD & PRACTICE (This Week)
+   - Clone MRUH Fortress v2 repository
+   - Run it locally and verify everything works
+   - Understand the physics engine (Cannon.js)
+   - Record backup demo video
+   - Memorize pitch script
+   - Practice demo 10+ times
+
+2. HACKATHON DAY: HOUR 0-1 (Setup & Physics)
+   - Clone repository
+   - Run pnpm install && pnpm db:push
+   - Start dev server
+   - Verify 3D terrain loads
+   - Verify physics simulation runs at 60 FPS
+   - CHECKPOINT: Physics engine working
+
+3. HACKATHON DAY: HOUR 1-2 (Pathfinding & Heatmap)
+   - Test gravity-aware pathfinding
+   - Test physics-based heatmap
+   - Create test incident, verify routes consider slope
+   - Verify heatmap reflects physics factors
+   - CHECKPOINT: Physics-aware routing working
+
+4. HACKATHON DAY: HOUR 2-3 (AI Integration & Demo)
+   - Integrate AI with physics
+   - Test AI makes physics-aware decisions
+   - Create demo scenario
+   - Run demo 3 times
+   - CHECKPOINT: Full system working
+
+5. HACKATHON DAY: HOUR 3-4 (Polish & Presentation)
+   - Run full demo 5 times
+   - Memorize pitch script
+   - Practice handling questions
+   - Record backup video
+   - CHECKPOINT: Ready to present
+
+THE PITCH (2 Minutes):
+[See PART 10: DEMO SCENARIO for complete pitch]
+
+THE WINNING FACTORS:
+1. You have a working physics engine (no other team will)
+2. You have gravity-aware pathfinding (no other team will)
+3. Your project is visually stunning (3D terrain with physics)
+4. Your project is technically insane (Cannon.js + A* + AI)
+5. Your project is emotionally resonant (saves lives using physics)
+6. Your presentation is psychologically designed (silence, awe)
+7. You are aggressive and strategic (you prepared beforehand)
+
+THE RESULT:
+You will win. Not because you're lucky. Because you're smarter, faster, and more aggressive than everyone else.
+
+================================================================================
+PART 12: FINAL CHECKLIST
+================================================================================
+
+PRE-HACKATHON:
+[ ] Read this entire document
+[ ] Understand physics engine (Cannon.js)
+[ ] Understand gravity-aware pathfinding
+[ ] Understand physics-based heatmap
+[ ] Clone MRUH Fortress v2 repository
+[ ] Run it locally and verify everything works
+[ ] Record backup demo video
+[ ] Memorize pitch script
+[ ] Practice demo 10+ times
+[ ] Align team on roles
+[ ] Get 8 hours of sleep before hackathon
+
+HACKATHON DAY:
+[ ] Arrive early
+[ ] Set up development environment
+[ ] Verify dev server starts
+[ ] Verify 3D terrain loads
+[ ] Verify physics simulation runs at 60 FPS
+[ ] Verify demo button works
+[ ] Run all tests
+[ ] Hour 0-1: Setup & physics
+[ ] Hour 1-2: Pathfinding & heatmap
+[ ] Hour 2-3: AI integration & demo
+[ ] Hour 3-4: Polish & presentation
+[ ] Run demo 5 times
+[ ] Practice pitch
+[ ] Record backup video
+[ ] Be confident
+
+PRESENTATION:
+[ ] Speak slowly and deliberately
+[ ] Make eye contact with judges
+[ ] Let the demo do the talking
+[ ] Pause for 5 seconds after close
+[ ] Don't apologize for anything
+[ ] Be confident in your system
+[ ] Answer questions directly
+[ ] Thank judges
+
+POST-PRESENTATION:
+[ ] Celebrate (you earned it)
+[ ] If you win: Enjoy the victory
+[ ] If you don't win: You still built something amazing
+[ ] Follow up with judges
+[ ] Consider next steps (deployment, scaling, etc.)
+
+================================================================================
+PART 13: TECHNICAL STACK
+================================================================================
+
+Frontend:
+- React 19 + Tailwind CSS 4
+- Three.js (3D rendering)
+- React-Three-Fiber (React + Three.js integration)
+- Cannon.js (Physics engine)
+
+Backend:
+- Node.js + Express 4
+- tRPC 11 (API)
+- Drizzle ORM (Database)
+- MySQL 8.0 (Database)
+
+AI/ML:
+- OpenAI GPT-4o-mini (LLM)
+- OpenAI Whisper API (Voice transcription)
+- Custom A* pathfinding algorithm
+
+Algorithms:
+- A* pathfinding (gravity-aware)
+- Physics simulation (Cannon.js)
+- Heatmap calculation (physics-based)
+- Multi-objective optimization
+
+Testing:
+- Vitest (Unit tests)
+- Supertest (API tests)
+
+Deployment:
+- Manus hosting (built-in)
+- MySQL database (managed)
+- Redis cache (optional)
+
+================================================================================
+PART 14: PERFORMANCE TARGETS
+================================================================================
+
+Physics Simulation:
+- 60 FPS target
+- < 16.67 ms per frame
+- Smooth collision detection
+
+Pathfinding:
+- < 500ms for 10x10 grid
+- < 1000ms for 20x20 grid
+- Handle multiple simultaneous paths
+
+Heatmap:
+- < 200ms calculation for 100 zones
+- Real-time updates < 100ms
+- Cache results for performance
+
+AI Decision Making:
+- < 1000ms per decision
+- < 2 seconds end-to-end response
+
+Scalability:
+- Support 1000+ concurrent users
+- Handle 100+ simultaneous incidents
+- Maintain < 100ms latency at scale
+
+================================================================================
+END OF ANTI-GRAVITY PLAYBOOK
+================================================================================
+
+This is the most aggressive, technically advanced system ever built for a college hackathon.
+
+Physics + AI + 3D + Real-time optimization = DOMINATION.
+
+Execute it. Win. Change the world.
+
+- Senior Dev (Andrew Tate Mindset + Physics Engineer)
+  March 14, 2026

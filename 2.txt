@@ -1,0 +1,1262 @@
+================================================================================
+SENIOR DEV PLAYBOOK: UN-GRADE AI SYSTEM FOR SUSTAINABLE CITIES (SDG 11)
+================================================================================
+Author: Senior Dev (Andrew Tate Mindset)
+Date: March 14, 2026
+Goal: Build an AI Agent + RAG + LLM system that wins the VIBE FORGE hackathon
+Prize: ₹15,000 (Winner ₹10,000, Runner ₹5,000)
+Confidence: 95% (We've built this before. We know how to win.)
+
+================================================================================
+PART 1: THE AGGRESSIVE MINDSET
+================================================================================
+
+Listen. You're not building an app. You're building a SYSTEM that the UN would use.
+Most teams will build toys. We're building weapons.
+
+Key principles:
+1. Architecture beats code. Get the architecture right, code is trivial.
+2. Test-driven development. Write tests before code. Tests prove your system works.
+3. Modular design. Each component is independent, testable, replaceable.
+4. AI-first thinking. Every decision is filtered through: "How does AI improve this?"
+5. Aggressive optimization. Every millisecond counts. Every token counts. Every API call counts.
+
+================================================================================
+PART 2: THE SYSTEM ARCHITECTURE
+================================================================================
+
+MRUH FORTRESS: AI-Powered Urban Resilience System
+(Solves SDG 11: Sustainable Cities and Communities)
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         PRESENTATION LAYER                                   │
+│  (3D Campus Visualization + Real-time Heatmap + Admin Dashboard)             │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                    ┌───────────────┼───────────────┐
+                    │               │               │
+                    ▼               ▼               ▼
+        ┌──────────────────┐  ┌──────────────┐  ┌──────────────┐
+        │  AI AGENT LAYER  │  │  RAG LAYER   │  │  LLM LAYER   │
+        │  (Orchestration) │  │  (Knowledge) │  │  (Intelligence)
+        └──────────────────┘  └──────────────┘  └──────────────┘
+                    │               │               │
+                    └───────────────┼───────────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────────┐
+        │                           │                           │
+        ▼                           ▼                           ▼
+┌──────────────────┐      ┌──────────────────┐      ┌──────────────────┐
+│ INCIDENT DETECTOR│      │ PATHFINDING      │      │ RESOURCE         │
+│ (Voice + LLM)    │      │ ENGINE (A*)      │      │ ALLOCATOR        │
+│                  │      │                  │      │ (Heatmap)        │
+│ - Transcribe     │      │ - Grid mapping   │      │                  │
+│ - Classify       │      │ - Route calc     │      │ - Zone severity  │
+│ - Extract data   │      │ - Optimization   │      │ - Resource dist  │
+└──────────────────┘      └──────────────────┘      └──────────────────┘
+        │                           │                           │
+        └───────────────────────────┼───────────────────────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────────┐
+        │                           │                           │
+        ▼                           ▼                           ▼
+┌──────────────────┐      ┌──────────────────┐      ┌──────────────────┐
+│ DATABASE LAYER   │      │ CACHE LAYER      │      │ QUEUE LAYER      │
+│ (MySQL)          │      │ (Redis)          │      │ (Message Queue)  │
+│                  │      │                  │      │                  │
+│ - Incidents      │      │ - Route cache    │      │ - Incident queue │
+│ - Campus zones   │      │ - Zone cache     │      │ - Alert queue    │
+│ - Evacuation     │      │ - User cache     │      │ - Update queue   │
+│ - Notifications  │      │                  │      │                  │
+└──────────────────┘      └──────────────────┘      └──────────────────┘
+
+================================================================================
+PART 3: THE AI AGENT ARCHITECTURE (CORE LOGIC)
+================================================================================
+
+The AI Agent is the BRAIN of the system. It orchestrates everything.
+
+AGENT FLOW:
+1. Receive incident report (voice, text, or sensor)
+2. Process through RAG (retrieve relevant knowledge)
+3. Query LLM (classify incident, extract data)
+4. Execute actions (create incident, calculate routes, allocate resources)
+5. Monitor and adapt (update heatmap, send alerts, optimize routes)
+
+AGENT COMPONENTS:
+
+Component 1: INCIDENT PROCESSOR
+Purpose: Convert raw input (voice, text) into structured incident data
+Input: Voice/text report ("Aag! Fire in Engineering block!")
+Output: Structured incident {type: "fire", severity: "critical", location: {x: 0, y: 0}}
+Implementation:
+  - Use Whisper API for voice transcription
+  - Use GPT-4o-mini for incident classification
+  - Use regex/NLP for location extraction
+  - Use confidence scoring to validate data
+
+Component 2: KNOWLEDGE RETRIEVER (RAG)
+Purpose: Retrieve relevant knowledge from campus database
+Input: Incident data {type: "fire", location: {x: 0, y: 0}}
+Output: Relevant knowledge {nearby_buildings: [...], evacuation_routes: [...]}
+Implementation:
+  - Query campus zones database
+  - Retrieve pre-calculated evacuation routes
+  - Retrieve building information
+  - Retrieve resource availability
+  - Use semantic search for context-aware retrieval
+
+Component 3: DECISION MAKER (LLM)
+Purpose: Make intelligent decisions based on incident and knowledge
+Input: Incident + Knowledge
+Output: Decision {action: "evacuate", priority: "critical", routes: [...]}
+Implementation:
+  - Use GPT-4o-mini with system prompt
+  - Provide context (incident, knowledge, current state)
+  - Ask for specific decision (action, priority, routes)
+  - Parse structured output (JSON)
+
+Component 4: ACTION EXECUTOR
+Purpose: Execute decisions and update system state
+Input: Decision {action: "evacuate", routes: [...]}
+Output: Updated system state (incident created, alerts sent, routes displayed)
+Implementation:
+  - Create incident in database
+  - Calculate evacuation routes using A*
+  - Update heatmap zones
+  - Send alerts to users
+  - Update admin dashboard
+
+Component 5: MONITOR & ADAPT
+Purpose: Monitor incident evolution and adapt responses
+Input: Real-time incident updates
+Output: Updated routes, alerts, resource allocation
+Implementation:
+  - Poll incident status every 5 seconds
+  - Recalculate routes if incident spreads
+  - Update heatmap in real-time
+  - Send updated alerts
+  - Optimize resource allocation
+
+================================================================================
+PART 4: RAG IMPLEMENTATION (KNOWLEDGE LAYER)
+================================================================================
+
+RAG = Retrieval-Augmented Generation
+Purpose: Give the LLM access to campus-specific knowledge without fine-tuning
+
+KNOWLEDGE BASE:
+1. Campus Structure
+   - 6 buildings (Engineering, Science, Library, Hostel, Medical, Admin)
+   - 10x10 grid system (100 zones)
+   - Coordinates for each building
+   - Capacity of each building (for sheltering)
+
+2. Evacuation Routes
+   - Pre-calculated routes from each building to safe exits
+   - Waypoints for each route
+   - Estimated evacuation time
+   - Capacity constraints
+
+3. Resource Inventory
+   - Medical supplies (location, quantity)
+   - Food/water (location, quantity)
+   - Shelters (location, capacity)
+   - Emergency vehicles (location, availability)
+
+4. Incident History
+   - Past incidents (type, severity, duration, impact)
+   - Lessons learned
+   - Recommended responses
+
+RETRIEVAL STRATEGY:
+1. Vector embedding: Convert queries to embeddings
+2. Semantic search: Find similar knowledge items
+3. Ranking: Rank by relevance and recency
+4. Filtering: Filter by incident type and location
+5. Aggregation: Combine multiple knowledge items
+
+IMPLEMENTATION:
+Use simple vector search (no expensive embedding models):
+- Convert knowledge to text descriptions
+- Use TF-IDF or BM25 for ranking
+- Cache results for performance
+- Update knowledge base in real-time
+
+RAG PROMPT TEMPLATE:
+"You are an emergency response AI for MRUH Campus. Use the following knowledge to make decisions:
+
+INCIDENT: {incident_data}
+CAMPUS KNOWLEDGE: {retrieved_knowledge}
+CURRENT STATE: {system_state}
+
+Make a decision:
+1. What action should we take? (evacuate, shelter, medical_response, etc.)
+2. What is the priority level? (critical, warning, info)
+3. Which evacuation routes should we use?
+4. What resources should we allocate?
+5. Who should be alerted?
+
+Respond in JSON format:
+{
+  \"action\": \"...\",
+  \"priority\": \"...\",
+  \"routes\": [...],
+  \"resources\": [...],
+  \"alerts\": [...]
+}"
+
+================================================================================
+PART 5: LLM IMPLEMENTATION (INTELLIGENCE LAYER)
+================================================================================
+
+LLM = Large Language Model (GPT-4o-mini)
+Purpose: Provide intelligent decision-making and natural language understanding
+
+SYSTEM PROMPT (The Most Important Thing):
+"You are an AI emergency response system for MRUH Campus. Your goal is to save lives.
+
+You have access to:
+1. Real-time incident data (type, severity, location)
+2. Campus knowledge (buildings, routes, resources)
+3. Current system state (active incidents, evacuations, alerts)
+
+Your responsibilities:
+1. Classify incidents accurately (type, severity, location)
+2. Make fast decisions (response time < 1 second)
+3. Prioritize human safety above all else
+4. Communicate clearly (alerts in multiple languages)
+5. Adapt to changing situations (update routes, reallocate resources)
+
+When making decisions:
+- Consider all available information
+- Prioritize the most critical incidents
+- Ensure no one is left behind
+- Optimize for speed and safety
+- Be transparent about reasoning
+
+Always respond in valid JSON format. Never include explanations outside JSON."
+
+INCIDENT CLASSIFICATION PROMPT:
+"Classify the following incident report:
+
+REPORT: {user_input}
+
+Extract and classify:
+1. Incident type (fire, flood, earthquake, medical, structural, other)
+2. Severity (critical, warning, info)
+3. Location (building name or coordinates)
+4. Affected area (radius in meters)
+5. Estimated casualties (number of people at risk)
+6. Required response (evacuation, shelter, medical, rescue)
+
+Respond in JSON:
+{
+  \"type\": \"...\",
+  \"severity\": \"...\",
+  \"location\": {\"x\": ..., \"y\": ...},
+  \"affected_radius\": ...,
+  \"casualties\": ...,
+  \"response\": \"...\"
+}"
+
+DECISION MAKING PROMPT:
+"You are responding to an emergency. Make a decision:
+
+INCIDENT: {incident_data}
+KNOWLEDGE: {retrieved_knowledge}
+STATE: {system_state}
+
+Decide:
+1. Primary action (evacuate, shelter, medical, rescue)
+2. Secondary actions (resource allocation, communication)
+3. Evacuation routes (list of safe routes)
+4. Resource allocation (where to send help)
+5. Communication (who to alert, what message)
+
+Respond in JSON:
+{
+  \"primary_action\": \"...\",
+  \"secondary_actions\": [...],
+  \"evacuation_routes\": [...],
+  \"resources\": {...},
+  \"communication\": {...}
+}"
+
+OPTIMIZATION PROMPT:
+"Optimize the current response:
+
+CURRENT_STATE: {system_state}
+INCIDENTS: {active_incidents}
+RESOURCES: {available_resources}
+
+Optimize:
+1. Are evacuation routes still optimal?
+2. Are resources allocated efficiently?
+3. Are there bottlenecks?
+4. Should we update alerts?
+5. Should we reallocate resources?
+
+Respond in JSON:
+{
+  \"routes_optimal\": true/false,
+  \"route_updates\": [...],
+  \"resources_optimal\": true/false,
+  \"resource_updates\": {...},
+  \"bottlenecks\": [...],
+  \"alert_updates\": [...],
+  \"recommendations\": [...]
+}"
+
+================================================================================
+PART 6: IMPLEMENTATION STRATEGY (SENIOR DEV APPROACH)
+================================================================================
+
+Phase 1: ARCHITECTURE & SETUP (30 minutes)
+- Set up project structure
+- Create database schema
+- Set up API routes
+- Create AI agent skeleton
+
+Phase 2: CORE COMPONENTS (90 minutes)
+- Implement incident processor (voice + LLM)
+- Implement knowledge retriever (RAG)
+- Implement decision maker (LLM)
+- Implement action executor (database + heatmap)
+
+Phase 3: INTEGRATION & TESTING (60 minutes)
+- Integrate all components
+- Write comprehensive tests
+- Test end-to-end flows
+- Performance optimization
+
+Phase 4: POLISH & DEMO (30 minutes)
+- UI polish
+- Demo preparation
+- Backup video
+- Pitch rehearsal
+
+================================================================================
+PART 7: TEST CASES (PROOF OF CONCEPT)
+================================================================================
+
+TEST CASE 1: INCIDENT DETECTION & CLASSIFICATION
+Scenario: User reports fire in Engineering block
+Input: Voice report "Aag! Engineering block mein aag hai!"
+Expected Output: {type: "fire", severity: "critical", location: {x: 0, y: 0}}
+Test: Assert output matches expected
+Validation: LLM correctly classified incident
+
+TEST CASE 2: KNOWLEDGE RETRIEVAL
+Scenario: Retrieve knowledge for fire incident
+Input: {type: "fire", location: {x: 0, y: 0}}
+Expected Output: {nearby_buildings: [...], evacuation_routes: [...]}
+Test: Assert retrieved knowledge is relevant
+Validation: Routes avoid fire zone
+
+TEST CASE 3: DECISION MAKING
+Scenario: LLM makes decision for fire incident
+Input: Incident + Knowledge
+Expected Output: {action: "evacuate", routes: [...], alerts: [...]}
+Test: Assert decision is reasonable
+Validation: Routes prioritize safety
+
+TEST CASE 4: ROUTE CALCULATION
+Scenario: Calculate evacuation routes from Engineering block
+Input: {building: "Engineering", incident: {type: "fire", location: {x: 0, y: 0}}}
+Expected Output: {routes: [{waypoints: [...], time: 120}]}
+Test: Assert routes avoid fire zone
+Validation: Routes are optimal
+
+TEST CASE 5: HEATMAP UPDATE
+Scenario: Update heatmap when fire incident is created
+Input: Incident {type: "fire", location: {x: 0, y: 0}}
+Expected Output: Heatmap zones updated {zone_1: "critical", zone_2: "warning", ...}
+Test: Assert nearby zones are red/yellow
+Validation: Heatmap reflects incident
+
+TEST CASE 6: ALERT GENERATION
+Scenario: Generate alerts for fire incident
+Input: Incident {type: "fire", location: {x: 0, y: 0}}
+Expected Output: Alerts in Telugu, Hindi, English
+Test: Assert alerts are multilingual
+Validation: Alerts are clear and actionable
+
+TEST CASE 7: INCIDENT RESOLUTION
+Scenario: Mark incident as resolved
+Input: Incident ID
+Expected Output: Incident status = "resolved", heatmap updated
+Test: Assert incident is removed from active list
+Validation: Heatmap returns to normal
+
+TEST CASE 8: MULTIPLE INCIDENTS
+Scenario: Handle multiple simultaneous incidents
+Input: 3 incidents (fire, flood, earthquake)
+Expected Output: Routes recalculated for all buildings
+Test: Assert routes avoid all incident zones
+Validation: System handles complexity
+
+TEST CASE 9: RESOURCE ALLOCATION
+Scenario: Allocate resources based on incidents
+Input: Active incidents + available resources
+Expected Output: Resources allocated to highest priority zones
+Test: Assert allocation is optimal
+Validation: No resource conflicts
+
+TEST CASE 10: PERFORMANCE TEST
+Scenario: System responds to incident within 1 second
+Input: Voice report
+Expected Output: Incident created, routes calculated, alerts sent (all < 1 second)
+Test: Assert response time < 1000ms
+Validation: System is fast enough for real emergencies
+
+================================================================================
+PART 8: DETAILED IMPLEMENTATION PROMPTS
+================================================================================
+
+PROMPT 1: INCIDENT PROCESSOR IMPLEMENTATION
+"You are implementing an incident processor for an emergency response system.
+
+Requirements:
+1. Accept voice input (transcribed text)
+2. Use LLM to classify incident
+3. Extract incident type, severity, location
+4. Validate extracted data
+5. Return structured incident object
+
+Implementation:
+- Use Whisper API for transcription (if voice input)
+- Use GPT-4o-mini for classification
+- Use regex for location extraction
+- Use confidence scoring for validation
+- Return JSON with incident data
+
+Error handling:
+- If transcription fails, ask user to repeat
+- If classification fails, ask for clarification
+- If location extraction fails, ask user to specify location
+- If confidence is low, ask user to confirm
+
+Performance:
+- Response time < 500ms
+- Accuracy > 95%
+- Handle multiple languages (Telugu, Hindi, English)
+
+Code structure:
+async function processIncident(input) {
+  // 1. Transcribe (if voice)
+  // 2. Classify with LLM
+  // 3. Extract location
+  // 4. Validate data
+  // 5. Return incident object
+}"
+
+PROMPT 2: KNOWLEDGE RETRIEVER IMPLEMENTATION
+"You are implementing a RAG knowledge retriever for an emergency response system.
+
+Requirements:
+1. Accept incident data as query
+2. Retrieve relevant campus knowledge
+3. Return structured knowledge object
+4. Prioritize by relevance
+
+Implementation:
+- Query campus zones database
+- Retrieve nearby buildings
+- Retrieve pre-calculated evacuation routes
+- Retrieve resource availability
+- Rank by relevance and distance
+
+Knowledge base structure:
+{
+  buildings: [{name, x, y, capacity, resources}],
+  zones: [{id, x, y, radius, buildings}],
+  routes: [{from, to, waypoints, time, capacity}],
+  resources: [{type, location, quantity, availability}]
+}
+
+Retrieval algorithm:
+1. Find nearest zones to incident location
+2. Find buildings in those zones
+3. Find evacuation routes from those buildings
+4. Find resources near incident location
+5. Rank by relevance and distance
+6. Return top 10 results
+
+Performance:
+- Response time < 200ms
+- Retrieve top 10 relevant items
+- Cache results for 5 minutes
+
+Code structure:
+async function retrieveKnowledge(incident) {
+  // 1. Find nearby zones
+  // 2. Find relevant buildings
+  // 3. Find evacuation routes
+  // 4. Find resources
+  // 5. Rank and return
+}"
+
+PROMPT 3: DECISION MAKER IMPLEMENTATION
+"You are implementing a decision maker for an emergency response system using LLM.
+
+Requirements:
+1. Accept incident + knowledge as input
+2. Use LLM to make intelligent decision
+3. Return structured decision object
+4. Explain reasoning
+
+Implementation:
+- Use GPT-4o-mini with system prompt
+- Provide incident + knowledge context
+- Ask for specific decision (action, priority, routes)
+- Parse structured JSON output
+- Validate decision reasonableness
+
+System prompt:
+'You are an emergency response AI. Make fast, safe decisions based on incident data and campus knowledge. Prioritize human safety. Respond in JSON format.'
+
+Decision structure:
+{
+  action: 'evacuate' | 'shelter' | 'medical' | 'rescue',
+  priority: 'critical' | 'warning' | 'info',
+  routes: [{from, to, waypoints, time}],
+  resources: [{type, quantity, location}],
+  alerts: [{language, message}],
+  reasoning: 'explanation'
+}
+
+Validation:
+- Assert action is reasonable for incident type
+- Assert priority matches severity
+- Assert routes avoid incident zone
+- Assert resources are available
+
+Performance:
+- Response time < 1000ms
+- Accuracy > 90%
+- Always provide reasoning
+
+Code structure:
+async function makeDecision(incident, knowledge) {
+  // 1. Prepare LLM prompt
+  // 2. Call LLM
+  // 3. Parse JSON output
+  // 4. Validate decision
+  // 5. Return decision object
+}"
+
+PROMPT 4: ACTION EXECUTOR IMPLEMENTATION
+"You are implementing an action executor for an emergency response system.
+
+Requirements:
+1. Accept decision as input
+2. Execute decision (create incident, calculate routes, send alerts)
+3. Update system state
+4. Return execution result
+
+Implementation:
+- Create incident in database
+- Calculate evacuation routes using A*
+- Update heatmap zones
+- Send alerts to users
+- Update admin dashboard
+- Log all actions
+
+Action handlers:
+- evacuate: Calculate routes, send alerts, update heatmap
+- shelter: Find safe zones, allocate resources, send alerts
+- medical: Find medical facilities, send alerts, allocate resources
+- rescue: Coordinate rescue teams, send alerts, track progress
+
+Database updates:
+- Insert incident record
+- Update zone severity
+- Insert alert records
+- Update resource allocation
+
+Real-time updates:
+- Publish incident to WebSocket
+- Publish heatmap updates
+- Publish alert notifications
+- Publish route updates
+
+Performance:
+- Response time < 500ms
+- All updates propagate within 1 second
+- No database locks or conflicts
+
+Code structure:
+async function executeAction(decision) {
+  // 1. Create incident
+  // 2. Calculate routes
+  // 3. Update heatmap
+  // 4. Send alerts
+  // 5. Update dashboard
+  // 6. Return result
+}"
+
+PROMPT 5: MONITOR & ADAPT IMPLEMENTATION
+"You are implementing a monitor & adapt system for an emergency response.
+
+Requirements:
+1. Monitor incident evolution
+2. Detect changes (incident spreads, new incidents, resolved incidents)
+3. Adapt responses (recalculate routes, reallocate resources)
+4. Send updated alerts
+
+Implementation:
+- Poll incident status every 5 seconds
+- Check for incident spread
+- Detect new incidents
+- Detect resolved incidents
+- Recalculate routes if needed
+- Update heatmap
+- Send updated alerts
+
+Monitoring logic:
+1. Get all active incidents
+2. For each incident:
+   a. Check if it has spread (affected_radius increased)
+   b. Check if it has been resolved (status changed)
+   c. Check if new incidents nearby
+3. If changes detected:
+   a. Recalculate routes
+   b. Update heatmap
+   c. Send updated alerts
+   d. Reallocate resources
+
+Adaptation triggers:
+- Incident radius increased > 10% → Recalculate routes
+- New incident detected → Recalculate all routes
+- Incident resolved → Update heatmap, remove alerts
+- Resource shortage detected → Reallocate resources
+
+Performance:
+- Poll interval: 5 seconds
+- Recalculation time: < 1000ms
+- Alert propagation: < 500ms
+
+Code structure:
+async function monitorAndAdapt() {
+  // 1. Get active incidents
+  // 2. Check for changes
+  // 3. If changes:
+  //    a. Recalculate routes
+  //    b. Update heatmap
+  //    c. Send alerts
+  // 4. Schedule next poll
+}"
+
+================================================================================
+PART 9: DETAILED ARCHITECTURE DOCUMENT
+================================================================================
+
+SYSTEM ARCHITECTURE: MRUH FORTRESS
+
+Layer 1: PRESENTATION LAYER
+Purpose: Display system state to users
+Components:
+- 3D Campus Visualization (Three.js)
+- Real-time Heatmap (Canvas/WebGL)
+- Admin Dashboard (React)
+- Mobile App (React Native)
+
+Technologies:
+- Frontend: React 19 + Tailwind CSS
+- 3D: Three.js + React-Three-Fiber
+- Real-time: WebSocket + tRPC
+- Mobile: React Native
+
+Layer 2: API LAYER
+Purpose: Expose system functionality via REST/tRPC
+Endpoints:
+- POST /api/incident/create (create new incident)
+- GET /api/incident/list (list active incidents)
+- POST /api/incident/resolve (mark incident as resolved)
+- GET /api/routes/calculate (calculate evacuation routes)
+- GET /api/heatmap/get (get current heatmap)
+- POST /api/alert/send (send alert to users)
+
+Technologies:
+- Framework: Express 4 + tRPC 11
+- Validation: Zod
+- Documentation: OpenAPI/Swagger
+
+Layer 3: AI AGENT LAYER
+Purpose: Orchestrate intelligent decision-making
+Components:
+- Incident Processor (voice + LLM)
+- Knowledge Retriever (RAG)
+- Decision Maker (LLM)
+- Action Executor (database + heatmap)
+- Monitor & Adapt (polling + adaptation)
+
+Technologies:
+- LLM: GPT-4o-mini via OpenAI API
+- Voice: Whisper API
+- Orchestration: Custom agent framework
+- Caching: Redis
+
+Layer 4: COMPUTATION LAYER
+Purpose: Perform heavy computations
+Components:
+- Pathfinding Engine (A* algorithm)
+- Heatmap Calculator (zone severity)
+- Route Optimizer (multi-objective optimization)
+- Resource Allocator (constraint satisfaction)
+
+Technologies:
+- Language: Node.js + TypeScript
+- Algorithms: Custom implementations
+- Performance: Optimized for < 1 second response time
+
+Layer 5: DATA LAYER
+Purpose: Store and retrieve data
+Components:
+- Primary Database (MySQL)
+- Cache Layer (Redis)
+- Message Queue (RabbitMQ or similar)
+- File Storage (S3)
+
+Technologies:
+- Database: MySQL 8.0 + Drizzle ORM
+- Cache: Redis
+- Queue: RabbitMQ or AWS SQS
+- Storage: AWS S3
+
+DATA FLOW:
+
+1. User Input
+   Voice/text report → Transcription → Classification → Incident object
+
+2. Processing
+   Incident object → RAG retrieval → LLM decision → Action execution
+
+3. System Update
+   Action execution → Database update → Heatmap update → WebSocket broadcast
+
+4. Monitoring
+   Poll active incidents → Detect changes → Adapt responses → Send alerts
+
+5. Output
+   System state → API response → Frontend display → User notification
+
+PERFORMANCE TARGETS:
+- Incident detection: < 500ms
+- Knowledge retrieval: < 200ms
+- Decision making: < 1000ms
+- Action execution: < 500ms
+- Total response time: < 2 seconds
+- Heatmap update: < 1 second
+- Alert propagation: < 500ms
+
+SCALABILITY:
+- Support 1000+ concurrent users
+- Handle 100+ simultaneous incidents
+- Process 10,000+ alerts per minute
+- Maintain < 100ms latency at scale
+
+RELIABILITY:
+- 99.9% uptime
+- Automatic failover
+- Data backup every 5 minutes
+- Incident logging and audit trail
+
+================================================================================
+PART 10: TEST IMPLEMENTATION GUIDE
+================================================================================
+
+TEST FRAMEWORK: Vitest + Supertest
+
+TEST STRUCTURE:
+
+describe('MRUH Fortress AI System', () => {
+  // Test 1: Incident Detection
+  describe('Incident Processor', () => {
+    it('should classify fire incident correctly', async () => {
+      const input = "Aag! Engineering block mein aag hai!"
+      const result = await processIncident(input)
+      expect(result.type).toBe('fire')
+      expect(result.severity).toBe('critical')
+      expect(result.location).toBeDefined()
+    })
+
+    it('should handle multiple languages', async () => {
+      const inputs = [
+        "Fire in Engineering block", // English
+        "Aag! Engineering block mein", // Hindi
+        "Agni! Engineering block lo" // Telugu
+      ]
+      for (const input of inputs) {
+        const result = await processIncident(input)
+        expect(result.type).toBe('fire')
+      }
+    })
+
+    it('should extract location correctly', async () => {
+      const input = "Fire in Engineering block near entrance"
+      const result = await processIncident(input)
+      expect(result.location.x).toBeDefined()
+      expect(result.location.y).toBeDefined()
+    })
+
+    it('should handle ambiguous input gracefully', async () => {
+      const input = "Something bad happened"
+      const result = await processIncident(input)
+      expect(result.severity).toBe('warning')
+      expect(result.confidence).toBeLessThan(0.8)
+    })
+  })
+
+  // Test 2: Knowledge Retrieval
+  describe('Knowledge Retriever', () => {
+    it('should retrieve nearby buildings', async () => {
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const knowledge = await retrieveKnowledge(incident)
+      expect(knowledge.buildings.length).toBeGreaterThan(0)
+      expect(knowledge.buildings[0].distance).toBeLessThan(100)
+    })
+
+    it('should retrieve evacuation routes', async () => {
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const knowledge = await retrieveKnowledge(incident)
+      expect(knowledge.routes.length).toBeGreaterThan(0)
+      expect(knowledge.routes[0].waypoints).toBeDefined()
+    })
+
+    it('should rank knowledge by relevance', async () => {
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const knowledge = await retrieveKnowledge(incident)
+      // First item should be most relevant
+      expect(knowledge.buildings[0].distance).toBeLessThanOrEqual(knowledge.buildings[1].distance)
+    })
+
+    it('should cache results for performance', async () => {
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const start1 = Date.now()
+      await retrieveKnowledge(incident)
+      const time1 = Date.now() - start1
+      
+      const start2 = Date.now()
+      await retrieveKnowledge(incident)
+      const time2 = Date.now() - start2
+      
+      // Second call should be faster (cached)
+      expect(time2).toBeLessThan(time1)
+    })
+  })
+
+  // Test 3: Decision Making
+  describe('Decision Maker', () => {
+    it('should make evacuation decision for fire', async () => {
+      const incident = {type: 'fire', severity: 'critical', location: {x: 0, y: 0}}
+      const knowledge = {buildings: [...], routes: [...]}
+      const decision = await makeDecision(incident, knowledge)
+      expect(decision.action).toBe('evacuate')
+      expect(decision.priority).toBe('critical')
+    })
+
+    it('should make medical response decision for medical incident', async () => {
+      const incident = {type: 'medical', severity: 'critical', location: {x: 100, y: 100}}
+      const knowledge = {buildings: [...], routes: [...]}
+      const decision = await makeDecision(incident, knowledge)
+      expect(decision.action).toBe('medical')
+      expect(decision.priority).toBe('critical')
+    })
+
+    it('should provide reasoning for decision', async () => {
+      const incident = {type: 'fire', severity: 'critical', location: {x: 0, y: 0}}
+      const knowledge = {buildings: [...], routes: [...]}
+      const decision = await makeDecision(incident, knowledge)
+      expect(decision.reasoning).toBeDefined()
+      expect(decision.reasoning.length).toBeGreaterThan(0)
+    })
+
+    it('should handle multiple incidents', async () => {
+      const incidents = [
+        {type: 'fire', severity: 'critical', location: {x: 0, y: 0}},
+        {type: 'flood', severity: 'warning', location: {x: 100, y: 100}}
+      ]
+      const decision = await makeDecision(incidents, knowledge)
+      expect(decision.priority).toBe('critical') // Prioritize fire
+    })
+  })
+
+  // Test 4: Route Calculation
+  describe('Pathfinding Engine', () => {
+    it('should calculate evacuation routes', async () => {
+      const building = {name: 'Engineering', x: 0, y: 0}
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const routes = await calculateRoutes(building, incident)
+      expect(routes.length).toBeGreaterThan(0)
+      expect(routes[0].waypoints).toBeDefined()
+      expect(routes[0].time).toBeGreaterThan(0)
+    })
+
+    it('should avoid incident zones', async () => {
+      const building = {name: 'Engineering', x: 0, y: 0}
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const routes = await calculateRoutes(building, incident)
+      // Routes should not pass through incident zone
+      for (const route of routes) {
+        for (const waypoint of route.waypoints) {
+          const distance = Math.sqrt(Math.pow(waypoint.x - incident.location.x, 2) + Math.pow(waypoint.y - incident.location.y, 2))
+          expect(distance).toBeGreaterThan(incident.radius)
+        }
+      }
+    })
+
+    it('should optimize for speed', async () => {
+      const building = {name: 'Engineering', x: 0, y: 0}
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const routes = await calculateRoutes(building, incident)
+      // First route should be fastest
+      expect(routes[0].time).toBeLessThanOrEqual(routes[1].time)
+    })
+
+    it('should handle multiple incidents', async () => {
+      const building = {name: 'Engineering', x: 0, y: 0}
+      const incidents = [
+        {type: 'fire', location: {x: 0, y: 0}},
+        {type: 'flood', location: {x: 100, y: 100}}
+      ]
+      const routes = await calculateRoutes(building, incidents)
+      // Routes should avoid all incident zones
+      expect(routes.length).toBeGreaterThan(0)
+    })
+  })
+
+  // Test 5: Heatmap Update
+  describe('Heatmap Calculator', () => {
+    it('should update heatmap when incident created', async () => {
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const heatmap = await updateHeatmap(incident)
+      // Zones near incident should be red
+      expect(heatmap.zones[0].severity).toBe('critical')
+      expect(heatmap.zones[1].severity).toBe('warning')
+    })
+
+    it('should color-code zones correctly', async () => {
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const heatmap = await updateHeatmap(incident)
+      // Check color progression: red > orange > yellow > green
+      for (let i = 0; i < heatmap.zones.length; i++) {
+        const zone = heatmap.zones[i]
+        const distance = Math.sqrt(Math.pow(zone.x - incident.location.x, 2) + Math.pow(zone.y - incident.location.y, 2))
+        if (distance < 50) expect(zone.severity).toBe('critical')
+        else if (distance < 100) expect(zone.severity).toBe('warning')
+        else expect(zone.severity).toBe('info')
+      }
+    })
+
+    it('should handle multiple incidents', async () => {
+      const incidents = [
+        {type: 'fire', location: {x: 0, y: 0}},
+        {type: 'flood', location: {x: 100, y: 100}}
+      ]
+      const heatmap = await updateHeatmap(incidents)
+      // Zones should reflect maximum severity from all incidents
+      expect(heatmap.zones[0].severity).toBe('critical') // Near fire
+      expect(heatmap.zones[50].severity).toBe('warning') // Between incidents
+    })
+  })
+
+  // Test 6: Alert Generation
+  describe('Alert System', () => {
+    it('should generate alerts in multiple languages', async () => {
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const alerts = await generateAlerts(incident)
+      expect(alerts.length).toBeGreaterThanOrEqual(3) // English, Hindi, Telugu
+      expect(alerts.some(a => a.language === 'en')).toBe(true)
+      expect(alerts.some(a => a.language === 'hi')).toBe(true)
+      expect(alerts.some(a => a.language === 'te')).toBe(true)
+    })
+
+    it('should include actionable information', async () => {
+      const incident = {type: 'fire', location: {x: 0, y: 0}}
+      const alerts = await generateAlerts(incident)
+      for (const alert of alerts) {
+        expect(alert.message).toContain('evacuate') // Should mention action
+        expect(alert.message).toContain('exit') // Should mention route
+      }
+    })
+
+    it('should prioritize critical alerts', async () => {
+      const incidents = [
+        {type: 'fire', severity: 'critical'},
+        {type: 'info', severity: 'info'}
+      ]
+      const alerts = await generateAlerts(incidents)
+      // Fire alert should come first
+      expect(alerts[0].incident.type).toBe('fire')
+    })
+  })
+
+  // Test 7: End-to-End Flow
+  describe('End-to-End Flow', () => {
+    it('should handle complete incident response', async () => {
+      // 1. User reports incident
+      const input = "Aag! Engineering block mein aag hai!"
+      
+      // 2. System processes incident
+      const incident = await processIncident(input)
+      expect(incident.type).toBe('fire')
+      
+      // 3. System retrieves knowledge
+      const knowledge = await retrieveKnowledge(incident)
+      expect(knowledge.buildings.length).toBeGreaterThan(0)
+      
+      // 4. System makes decision
+      const decision = await makeDecision(incident, knowledge)
+      expect(decision.action).toBe('evacuate')
+      
+      // 5. System executes action
+      const result = await executeAction(decision)
+      expect(result.incident).toBeDefined()
+      expect(result.routes).toBeDefined()
+      expect(result.alerts).toBeDefined()
+      
+      // 6. System updates heatmap
+      const heatmap = await updateHeatmap(incident)
+      expect(heatmap.zones[0].severity).toBe('critical')
+    })
+
+    it('should respond within 2 seconds', async () => {
+      const input = "Aag! Engineering block mein aag hai!"
+      const start = Date.now()
+      
+      const incident = await processIncident(input)
+      const knowledge = await retrieveKnowledge(incident)
+      const decision = await makeDecision(incident, knowledge)
+      const result = await executeAction(decision)
+      
+      const elapsed = Date.now() - start
+      expect(elapsed).toBeLessThan(2000)
+    })
+  })
+
+  // Test 8: Performance Tests
+  describe('Performance', () => {
+    it('should handle 100 simultaneous incidents', async () => {
+      const incidents = []
+      for (let i = 0; i < 100; i++) {
+        incidents.push({
+          type: 'fire',
+          location: {x: Math.random() * 250, y: Math.random() * 250}
+        })
+      }
+      
+      const start = Date.now()
+      const results = await Promise.all(incidents.map(i => executeAction(i)))
+      const elapsed = Date.now() - start
+      
+      expect(results.length).toBe(100)
+      expect(elapsed).toBeLessThan(10000) // Should handle 100 incidents in < 10 seconds
+    })
+
+    it('should maintain < 100ms latency at scale', async () => {
+      const latencies = []
+      for (let i = 0; i < 100; i++) {
+        const start = Date.now()
+        await retrieveKnowledge({type: 'fire', location: {x: 0, y: 0}})
+        latencies.push(Date.now() - start)
+      }
+      
+      const avgLatency = latencies.reduce((a, b) => a + b) / latencies.length
+      expect(avgLatency).toBeLessThan(100)
+    })
+  })
+})
+
+================================================================================
+PART 11: DEPLOYMENT & SCALING
+================================================================================
+
+DEPLOYMENT STRATEGY:
+
+Development:
+- Local development with hot reload
+- SQLite for local database
+- Mock LLM responses for testing
+- Full logging and debugging
+
+Staging:
+- Deploy to staging environment
+- Use real MySQL database
+- Use real LLM API (with rate limiting)
+- Monitor performance and errors
+
+Production:
+- Deploy to production environment
+- Use managed database (AWS RDS)
+- Use production LLM API
+- Enable caching and optimization
+- Monitor uptime and performance
+
+SCALING STRATEGY:
+
+Vertical Scaling:
+- Increase server CPU/memory
+- Optimize database queries
+- Add caching layer (Redis)
+- Use connection pooling
+
+Horizontal Scaling:
+- Deploy multiple instances
+- Use load balancer
+- Distribute database load
+- Use message queue for async processing
+
+Database Optimization:
+- Add indexes on frequently queried columns
+- Partition large tables
+- Archive old incidents
+- Use materialized views
+
+API Optimization:
+- Implement rate limiting
+- Use response caching
+- Compress responses
+- Use CDN for static assets
+
+LLM Optimization:
+- Use prompt caching
+- Batch requests
+- Use cheaper models for simple tasks
+- Implement fallback strategies
+
+================================================================================
+PART 12: AGGRESSIVE WINNING STRATEGY
+================================================================================
+
+THE MINDSET:
+You're not building an app. You're building a WEAPON.
+Most teams will build toys. You will build a system the UN would use.
+You will win because you're smarter, faster, and more aggressive than everyone else.
+
+THE STRATEGY:
+
+1. PRE-BUILD & PRACTICE (This Week)
+   - Clone the MRUH Fortress repository
+   - Run it locally and verify everything works
+   - Record a backup demo video
+   - Memorize the pitch script
+   - Practice the demo 10+ times
+   - Ensure your team knows their roles
+
+2. HACKATHON DAY: HOUR 0-1 (Setup & Verification)
+   - Clone repository
+   - Run pnpm install && pnpm db:push
+   - Start dev server
+   - Verify 3D campus loads
+   - Verify "Simulate Fire Demo" works
+   - CHECKPOINT: Everything works
+
+3. HACKATHON DAY: HOUR 1-2 (3D Map & AI Dispatcher)
+   - Test 3D visualization
+   - Test voice transcription
+   - Test LLM incident classification
+   - Create 2-3 test incidents
+   - CHECKPOINT: Demo is functional
+
+4. HACKATHON DAY: HOUR 2-3 (Pathfinding & Heatmap)
+   - Verify evacuation routes calculate
+   - Test heatmap updates
+   - Create critical incident, verify routes recalculate
+   - Test admin dashboard
+   - CHECKPOINT: All systems working
+
+5. HACKATHON DAY: HOUR 3-4 (Polish & Presentation)
+   - Run full demo 3 times
+   - Memorize pitch script
+   - Practice handling questions
+   - Record backup video
+   - CHECKPOINT: Ready to present
+
+THE PITCH (2 Minutes):
+"While you were reviewing other projects, we were building a system that could save your life. This is MRUH Fortress—an AI-powered disaster command center that turns your campus into a real-time crisis management system.
+
+Watch what happens when a fire breaks out in the Engineering block.
+
+[Click "Simulate Fire Demo"]
+
+Our AI instantly detects the incident. It calculates the fastest evacuation route for every building in the danger zone. It broadcasts the alert in Telugu, Hindi, and English. This isn't a simulation. This is real-time pathfinding using A* algorithm. Every route recalculates in milliseconds.
+
+See the heatmap? Green zones are safe. Red zones are critical. Every person on campus knows exactly where to go.
+
+We've integrated three AI systems: voice transcription, incident classification, and pathfinding. We've built a 3D digital twin of your campus. We've created a system that is not just innovative—it is necessary. If you don't vote for us, you are voting against a system that prevents casualties.
+
+[5-second silence. Do not speak.]"
+
+THE WINNING FACTORS:
+1. You have a working prototype (most teams don't)
+2. You have a reusable skill (you can rebuild in 4 hours)
+3. Your project is visually impressive (3D campus, live heatmap)
+4. Your project is technically advanced (AI + pathfinding + real-time)
+5. Your project is emotionally resonant (saves lives)
+6. Your presentation is psychologically designed (cognitive dissonance, silence)
+7. You are aggressive and strategic (you prepared beforehand)
+
+THE RESULT:
+You will win. Not because you're lucky. Because you're smarter, faster, and more aggressive than everyone else.
+
+================================================================================
+PART 13: FINAL CHECKLIST
+================================================================================
+
+PRE-HACKATHON:
+[ ]: # "Read this entire document"
+[ ]: # "Understand the system architecture"
+[ ]: # "Understand the AI agent flow"
+[ ]: # "Understand the test cases"
+[ ]: # "Clone MRUH Fortress repository"
+[ ]: # "Run it locally and verify everything works"
+[ ]: # "Record backup demo video"
+[ ]: # "Memorize pitch script"
+[ ]: # "Practice demo 10+ times"
+[ ]: # "Align team on roles"
+[ ]: # "Get 8 hours of sleep before hackathon"
+
+HACKATHON DAY:
+[ ]: # "Arrive early"
+[ ]: # "Set up development environment"
+[ ]: # "Verify dev server starts"
+[ ]: # "Verify 3D campus loads"
+[ ]: # "Verify demo button works"
+[ ]: # "Run all tests"
+[ ]: # "Hour 0-1: Setup & verification"
+[ ]: # "Hour 1-2: 3D map & AI dispatcher"
+[ ]: # "Hour 2-3: Pathfinding & heatmap"
+[ ]: # "Hour 3-4: Polish & presentation"
+[ ]: # "Run demo 3 times"
+[ ]: # "Practice pitch"
+[ ]: # "Record backup video"
+[ ]: # "Be confident"
+
+PRESENTATION:
+[ ]: # "Speak slowly and deliberately"
+[ ]: # "Make eye contact with judges"
+[ ]: # "Let the demo do the talking"
+[ ]: # "Pause for 5 seconds after close"
+[ ]: # "Don't apologize for anything"
+[ ]: # "Be confident in your system"
+[ ]: # "Answer questions directly"
+[ ]: # "Thank judges"
+
+POST-PRESENTATION:
+[ ]: # "Celebrate (you earned it)"
+[ ]: # "If you win: Enjoy the victory"
+[ ]: # "If you don't win: You still built something amazing"
+[ ]: # "Follow up with judges"
+[ ]: # "Consider next steps (deployment, scaling, etc.)"
+
+================================================================================
+END OF DOCUMENT
+================================================================================
+
+This is the complete playbook. Everything you need to win is here.
+Execute it. Win. Change the world.
+
+- Senior Dev (Andrew Tate Mindset)
+  March 14, 2026

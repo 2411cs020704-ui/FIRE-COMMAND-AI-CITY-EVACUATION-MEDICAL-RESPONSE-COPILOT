@@ -1,0 +1,153 @@
+Project Name: MRUH Fortress - Campus Disaster Command System
+
+Core Architecture:
+- Frontend: React + Vite + TypeScript + Tailwind CSS
+- 3D Engine: Three.js + React-Three-Fiber + @react-three/drei
+- Backend: Node.js + Express + Socket.io + MongoDB
+- AI: OpenAI API (Whisper for voice, GPT-4o-mini for classification)
+- Mapping: Mapbox GL JS for 2D overlay + Three.js for 3D campus
+- Real-time: WebSocket connections for live updates
+- Deployment: Vercel (frontend) + Railway (backend)
+
+FEATURE SET TO BUILD:
+
+1. 3D CAMPUS VISUALIZATION
+   - Create simplified 3D models of 5 key MRUH buildings (use boxes with textures initially)
+   - Implement camera controls (orbit, zoom, pan)
+   - Add building labels and click interactions
+   - Lighting: Ambient + directional lights for realism
+
+2. DISASTER SIMULATION ENGINE
+   - Flood simulation: Blue particle system that rises from ground level
+   - Fire simulation: Orange/red particles with smoke effect (gray particles)
+   - Heat visualization: Color gradient overlay on buildings
+   - Simulation controls: Start, pause, reset, speed control
+
+3. VOICE-TO-TEXT EMERGENCY REPORTING
+   - Integrate browser Speech Recognition API (fallback to OpenAI Whisper)
+   - Support 3 languages: English, Hindi, Telugu
+   - Audio input → transcription → GPT-4o classification
+   - Classification output: {type: "fire"|"flood"|"medical"|"threat", severity: 1-10, location: string}
+   - Display detected emergency on 3D map with icon
+
+4. DYNAMIC EVACUATION PATHFINDING
+   - Implement A* algorithm for graph-based campus navigation
+   - Input: User location + disaster type + blocked zones
+   - Output: Step-by-step evacuation path with distance/time estimate
+   - Visualize path as animated line on 3D model
+   - Add disaster-specific logic:
+     * Fire: Avoid enclosed spaces, prioritize outdoor routes
+     * Flood: Prefer upper floors and elevated paths
+     * Earthquake: Avoid glass structures, prefer open grounds
+
+5. REAL-TIME CAMPUS HEATMAP
+   - 2D map overlay using Mapbox with polygon zones for each building
+   - Color coding: Green (safe) → Yellow (caution) → Red (critical) → Black (blocked)
+   - WebSocket updates: When disaster occurs, zones change color in real-time
+   - Legend with emergency level descriptions
+
+6. MOBILE-FIRST UI
+   - Bottom navigation: Home, Report, Evacuate, Admin
+   - Home: Campus status + active alerts
+   - Report: Voice/text emergency submission with auto-location
+   - Evacuate: Show personalized evacuation route with turn-by-turn
+   - Admin: Command center dashboard (password protected)
+
+7. ADMIN COMMAND CENTER
+   - Grid layout dashboard:
+     * Active incidents list with severity badges
+     * 3D campus view with incident markers
+     * Evacuation progress bars per building
+     * Emergency contacts quick-dial
+     * Alert broadcasting system (send campus-wide notification)
+   - Incident timeline showing all events chronologically
+   - Resource management: Track available ambulances, security personnel, medical kits
+
+8. EMERGENCY ALERT SYSTEM
+   - When emergency is reported, trigger:
+     * Visual alert banner on all connected devices
+     * Push notification (using service worker)
+     * SMS to admin numbers (Twilio integration - can be mocked)
+     * Update heatmap and 3D model with incident marker
+
+9. GEOFENCING & AUTO-LOCATION
+   - Use browser Geolocation API to detect user position
+   - Map coordinates to campus buildings using polygon collision detection
+   - Auto-fill "current location" when reporting emergency
+   - Show "You are here" marker on 3D campus
+
+10. OFFLINE SUPPORT
+    - Service Worker with cache-first strategy
+    - Store campus map data and building information in IndexedDB
+    - Queue emergency reports when offline, sync when connection restored
+    - Show offline indicator in UI
+
+11. DEMO MODE
+    - Toggle switch: "Enable Demo Mode"
+    - Pre-scripted disaster scenarios:
+      * Scenario 1: Hostel flood with 47 students affected
+      * Scenario 2: Library fire with smoke spread
+      * Scenario 3: Heatwave with multiple medical emergencies
+    - Auto-play: Trigger simulation → show alerts → display evacuation → show resolution
+    - Reset button to clear all disasters
+
+12. TECHNICAL OPTIMIZATIONS
+    - Lazy load 3D models (load buildings only when in viewport)
+    - Throttle Socket.io events to prevent overload
+    - Use Web Workers for A* pathfinding calculations
+    - Implement request debouncing for API calls
+    - Add loading skeletons for better perceived performance
+
+VISUAL DESIGN:
+- Color scheme: Dark navy base (#0A1628) with emergency red accents (#DC2626)
+- High contrast text (WCAG AAA compliance for crisis readability)
+- Glassmorphism cards with subtle shadows
+- Emergency states: Pulsing red borders for critical alerts
+- Smooth transitions: 200ms for interactions, 500ms for state changes
+- Icons: Use Lucide React for consistent iconography
+
+DATA MODELS:
+
+Emergency:
+{
+  id: string,
+  type: "fire" | "flood" | "medical" | "earthquake" | "threat",
+  severity: 1-10,
+  location: { building: string, floor: string, coordinates: {lat, lng} },
+  reportedBy: userId,
+  reportedAt: timestamp,
+  status: "active" | "responding" | "resolved",
+  affectedCount: number,
+  description: string,
+  language: "en" | "hi" | "te"
+}
+
+EvacuationRoute:
+{
+  userId: string,
+  startLocation: {building, floor, coordinates},
+  endLocation: {building, coordinates},
+  path: [{lat, lng, instruction}],
+  distance: number (meters),
+  estimatedTime: number (seconds),
+  avoidZones: [buildingIds],
+  calculatedAt: timestamp
+}
+
+Building:
+{
+  id: string,
+  name: string,
+  type: "academic" | "hostel" | "admin" | "facility",
+  coordinates: {lat, lng},
+  floors: number,
+  capacity: number,
+  exits: [{name, coordinates, accessible: boolean}],
+  resources: ["fire_extinguisher", "first_aid", "aed"],
+  status: "safe" | "warning" | "critical" | "blocked"
+}
+
+DEMO SCRIPT INTEGRATION:
+- Create "Presentation Mode" button that:
+  1. Shows welcome screen with project name
+  2. Loads 
